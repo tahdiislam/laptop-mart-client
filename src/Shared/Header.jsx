@@ -1,6 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
+  // nav items
+  const navItems = (
+    <>
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+    </>
+  );
   return (
     <div className="drawer">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -23,15 +32,16 @@ export default function Header() {
               </svg>
             </label>
           </div>
-          <div className="flex-1 px-2 mx-2"><button className="btn btn-ghost">Laptop Mart</button></div>
-          <div className="flex-none hidden lg:block">
+          <div className="flex-1 px-2 mx-2">
+            <Link to="/">
+              <button className="btn btn-ghost font-bold text-2xl">
+                Laptop Mart
+              </button>
+            </Link>
+          </div>
+          <div className="flex-none hidden lg:block mr-6">
             <ul className="menu menu-horizontal">
-              <li>
-                <a>Navbar Item 1</a>
-              </li>
-              <li>
-                <a>Navbar Item 2</a>
-              </li>
+              {navItems}
             </ul>
           </div>
         </div>
@@ -39,12 +49,7 @@ export default function Header() {
       <div className="drawer-side">
         <label htmlFor="my-drawer-3" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80 bg-base-100">
-          <li>
-            <a>Sidebar Item 1</a>
-          </li>
-          <li>
-            <a>Sidebar Item 2</a>
-          </li>
+          {navItems}
         </ul>
       </div>
     </div>
