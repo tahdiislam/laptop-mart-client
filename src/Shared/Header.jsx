@@ -1,7 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../Context/AuthProvider";
 
 const Header = () => {
+  const { logOut } = useContext(UserContext);
+  const navigate = useNavigate()
+
+  // logOut handler
+  const handleLogOut = () => {
+    logOut()
+      .then((res) => {
+        console.log(res)
+        toast.success("Log Out successfully");
+        navigate('/')
+      })
+      .catch((err) => console.log(err.message));
+  };
+
   // nav items
   const navItems = (
     <>
@@ -38,15 +54,15 @@ const Header = () => {
               {navItems}
             </ul>
           </div>
-          <Link className="btn btn-ghost normal-case text-2xl font-bold">Laptop Mart</Link>
+          <Link className="btn btn-ghost normal-case text-2xl font-bold">
+            Laptop Mart
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal p-0 text-xl">
-            {navItems}
-          </ul>
+          <ul className="menu menu-horizontal p-0 text-xl">{navItems}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Get started</a>
+          <button onClick={handleLogOut} className="btn btn-primary">Log Out</button>
         </div>
       </div>
     </section>

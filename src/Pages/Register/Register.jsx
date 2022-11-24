@@ -1,11 +1,15 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../Context/AuthProvider";
 
 const Register = () => {
   const [role, setRole] = useState("");
+  const { createUserWithEmailPassword, updateUserProfile } =
+    useContext(UserContext);
+  const navigate = useNavigate();
   // react hook form
   const {
     register,
@@ -29,7 +33,25 @@ const Register = () => {
       .then((res) => {
         if (res.data.success) {
           const imageUrl = res.data.data.medium.url;
-          console.log(imageUrl);
+
+          // create user
+          createUserWithEmailPassword(email, password)
+            .then((result) => {
+              console.log(result.user);
+              const userInfo = {
+                displayName: name,
+                photoURL: imageUrl,
+              };
+              // update user profile
+              updateUserProfile(userInfo)
+                .then(() => {
+                  // user profile updated
+                  toast.success("Account created successfully")
+                  navigate("/")
+                })
+                .catch((err) => console.log(err.message));
+            })
+            .catch((err) => console.log(err.message));
         }
       });
   };

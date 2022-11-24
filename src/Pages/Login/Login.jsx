@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../Context/AuthProvider";
 
 const Login = () => {
+  const { signInUser } = useContext(UserContext);
   // react hook form
   const {
     register,
@@ -11,9 +13,16 @@ const Login = () => {
   } = useForm();
 
   // login handler
-  const handleLogin = data => {
-    console.log(data)
-  }
+  const handleLogin = (data) => {
+    const email = data.email;
+    const password = data.password;
+    console.log(email, password);
+    signInUser(email, password)
+      .then((result) => console.log(result))
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
   return (
     <section>
       <div className="hero min-h-screen bg-base-200">
@@ -37,7 +46,7 @@ const Login = () => {
                   type="email"
                   placeholder="email"
                   className="input input-bordered"
-                  {...register("email", {required: true})}
+                  {...register("email", { required: true })}
                 />
               </div>
               <div className="form-control">
@@ -48,7 +57,7 @@ const Login = () => {
                   type="password"
                   placeholder="password"
                   className="input input-bordered"
-                  {...register("password", {required: true})}
+                  {...register("password", { required: true })}
                 />
                 <label className="label">
                   <Link to="/login" className="label-text-alt link link-hover">
