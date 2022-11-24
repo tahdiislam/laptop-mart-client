@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../Context/AuthProvider";
 
 const Header = () => {
-  const { logOut, user } = useContext(UserContext);
+  const { logOut, user, setLoading } = useContext(UserContext);
   const navigate = useNavigate();
 
   // logOut handler
@@ -15,7 +15,10 @@ const Header = () => {
         toast.success("Log Out successfully");
         navigate("/login");
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err.message))
+      .finally(() =>{
+        setLoading(false)
+      })
   };
 
   // nav items

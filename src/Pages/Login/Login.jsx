@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
 
 const Login = () => {
   const { signInUser } = useContext(UserContext);
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
   // react hook form
   const {
@@ -20,9 +22,9 @@ const Login = () => {
     const password = data.password;
     console.log(email, password);
     signInUser(email, password)
-      .then((result) => {
-        toast.success("Login successfully")
-        navigate("/")
+      .then(() => {
+        toast.success("Login successfully");
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.log(err.message);
