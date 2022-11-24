@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
 
 const Register = () => {
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("buyer");
   const { createUserWithEmailPassword, updateUserProfile } =
     useContext(UserContext);
   const navigate = useNavigate();
@@ -46,8 +46,22 @@ const Register = () => {
               updateUserProfile(userInfo)
                 .then(() => {
                   // user profile updated
-                  toast.success("Account created successfully")
-                  navigate("/")
+                  // save user information to server
+                  const userDetails = {
+                    email,
+                    name,
+                    role,
+                  };
+                  const url = `${import.meta.env.VITE_server_url}users`;
+                  axios
+                    .post(url, userDetails)
+                    .then((result) => {
+                      if (result.data.result.acknowledged) {
+                        toast.success("Account created successfully");
+                        navigate("/");
+                      }
+                    })
+                    .catch((err) => console.log(err.message));
                 })
                 .catch((err) => console.log(err.message));
             })
@@ -55,6 +69,7 @@ const Register = () => {
         }
       });
   };
+
   return (
     <section>
       <div className="hero min-h-screen bg-base-200">
@@ -104,12 +119,14 @@ const Register = () => {
                   </label>
                   <select
                     name="role"
-                    onChange={(event) => setRole(event.target.value)}
+                    onChange={(event) => setRole((prev) => event.target.value)}
                     required
                     className="select select-primary w-full max-w-xs"
                   >
-                    <option defaultValue="selected">Buyer</option>
-                    <option>Seller</option>
+                    <option value="buyer" defaultValue="selected">
+                      Buyer
+                    </option>
+                    <option value="seller">Seller</option>
                   </select>
                 </div>
               </div>
