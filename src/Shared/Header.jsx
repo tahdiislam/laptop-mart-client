@@ -4,16 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../Context/AuthProvider";
 
 const Header = () => {
-  const { logOut } = useContext(UserContext);
-  const navigate = useNavigate()
+  const { logOut, user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   // logOut handler
   const handleLogOut = () => {
     logOut()
       .then((res) => {
-        console.log(res)
+        console.log(res);
         toast.success("Log Out successfully");
-        navigate('/')
+        navigate("/login");
       })
       .catch((err) => console.log(err.message));
   };
@@ -23,7 +23,6 @@ const Header = () => {
     <>
       <li>
         <Link to="/">Home</Link>
-        <Link to="/login">login</Link>
       </li>
     </>
   );
@@ -62,7 +61,11 @@ const Header = () => {
           <ul className="menu menu-horizontal p-0 text-xl">{navItems}</ul>
         </div>
         <div className="navbar-end">
-          <button onClick={handleLogOut} className="btn btn-primary">Log Out</button>
+          {user?.uid ? <button onClick={handleLogOut} className="btn btn-primary">
+            Log Out
+          </button> : <><Link to="/login" className="mr-3"><button className="btn btn-primary">Login</button></Link>
+          <Link to="/register"><button className="btn btn-primary btn-outline">Register</button></Link>
+          </>}
         </div>
       </div>
     </section>
