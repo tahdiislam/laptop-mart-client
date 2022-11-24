@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const Register = () => {
@@ -12,22 +13,25 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  //   // get the role value
-  //   const userRole = useRef();
-  //   // set role handler
-  //   const handleSetRole = () => {
-  //     console.log(userRole);
-  //   };
-  // login handler
+  // image bb api key
+  const imageBbApiKey = import.meta.env.VITE_IMAGE_BB_API_KEY;
+
   const handleLogin = (data) => {
     const name = data.name;
     const email = data.email;
     const password = data.password;
     const image = data.image[0];
     const formData = new FormData();
-    formData.append("image", image)
+    formData.append("image", image);
     // same image to db
-    axios.post(``)
+    axios
+      .post(`https://api.imgbb.com/1/upload?key=${imageBbApiKey}`, formData)
+      .then((res) => {
+        if (res.data.success) {
+          const imageUrl = res.data.data.medium.url;
+          console.log(imageUrl);
+        }
+      });
   };
   return (
     <section>
