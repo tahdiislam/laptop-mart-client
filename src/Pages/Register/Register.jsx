@@ -4,12 +4,22 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
+import useAccessToken from "../../Hooks/useAccessToken";
 
 const Register = () => {
   const [role, setRole] = useState("buyer");
+  const [userEmail, setUserEmail] = useState("");
   const { createUserWithEmailPassword, updateUserProfile } =
     useContext(UserContext);
   const navigate = useNavigate();
+
+  // get the access token
+  const [token] = useAccessToken(userEmail);
+
+  if (token) {
+    toast.success("Account created successfully");
+    navigate("/");
+  }
   // react hook form
   const {
     register,
@@ -57,8 +67,7 @@ const Register = () => {
                     .post(url, userDetails)
                     .then((result) => {
                       if (result.data.result.acknowledged) {
-                        toast.success("Account created successfully");
-                        navigate("/");
+                        setUserEmail(email);
                       }
                     })
                     .catch((err) => console.log(err.message));

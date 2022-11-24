@@ -1,27 +1,21 @@
-import { useContext, useEffect } from "react";
-import toast from "react-hot-toast";
-import { UserContext } from "../Context/AuthProvider";
-const { logOut } = useContext(UserContext);
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-const useAccessToken = ({ email }) => {
+const useAccessToken = (email) => {
+  const [token, setToken] = useState("");
   useEffect(() => {
     if (email) {
       const url = `${import.meta.env.VITE_server_url}jwt?email=${email}`;
-      fetch(url)
-        .then((res) => {
-          if (res.status === 401 || res.status || 403) {
-            logOut()
-              .then(() => {
-                toast.error("Session expire please login again");
-              })
-              .catch((err) => console.log(err.message));
-          }
-          return res.json();
+      axios
+        .get(url)
+        .then((data) => {
+          setToken(data.data)
+          localStorage.setItem("lmt", data.data.token)
         })
-        .then((data) => console.log(data.token))
         .catch((err) => console.log(err.message));
     }
   }, [email]);
+  return [token];
 };
 
 export default useAccessToken;
