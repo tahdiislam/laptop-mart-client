@@ -18,6 +18,12 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const [token] = useAccessToken(userEmail);
+
+  if (token) {
+    toast.success("Login successfully");
+    navigate(from, { replace: true });
+  }
   // get the access token
 
   // login handler
