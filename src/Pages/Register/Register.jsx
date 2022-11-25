@@ -72,9 +72,35 @@ const Register = () => {
                     })
                     .catch((err) => console.log(err.message));
                 })
-                .catch((err) => console.log(err.message));
+                .catch((err) => toast.error(
+                  err.message
+                    .split("Firebase: ")
+                    .join("")
+                    .split(" (")
+                    .join(": ")
+                    .split("/")
+                    .join(" ")
+                    .split("-")
+                    .join(" ")
+                    .split(")")
+                    .join("")
+                ));
             })
-            .catch((err) => console.log(err.message));
+            .catch((err) =>
+              toast.error(
+                err.message
+                  .split("Firebase: ")
+                  .join("")
+                  .split(" (")
+                  .join(": ")
+                  .split("/")
+                  .join(" ")
+                  .split("-")
+                  .join(" ")
+                  .split(")")
+                  .join("")
+              )
+            );
         }
       });
   };

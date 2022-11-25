@@ -36,7 +36,19 @@ const Login = () => {
         setUserEmail(email);
       })
       .catch((err) => {
-        console.log(err.message);
+        toast.error(
+          err.message
+            .split("Firebase: ")
+            .join("")
+            .split(" (")
+            .join(": ")
+            .split("/")
+            .join(" ")
+            .split("-")
+            .join(" ")
+            .split(")")
+            .join("")
+        );
       });
   };
   return (
