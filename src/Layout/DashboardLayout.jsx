@@ -3,6 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 import Loading from "../Component/Spinner/Loading";
 import { UserContext } from "../Context/AuthProvider";
 import useSeller from "../Hooks/useSeller";
+import Footer from "../Shared/Footer";
 import Header from "../Shared/Header";
 
 const DashboardLayout = () => {
@@ -62,6 +63,7 @@ const DashboardLayout = () => {
           </ul>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
