@@ -61,6 +61,7 @@ const Register = () => {
                     email,
                     name,
                     role,
+                    userVerified: false,
                   };
                   const url = `${import.meta.env.VITE_server_url}users`;
                   axios
