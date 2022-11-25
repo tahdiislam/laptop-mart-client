@@ -64,6 +64,8 @@ const AddProduct = () => {
             category,
             data: new Date().toISOString().slice(0, 10),
             sellerImg: user.photoURL,
+            sold: false,
+            advertise: false,
           };
           // send product to the server
           const url = `${import.meta.env.VITE_server_url}products`;
