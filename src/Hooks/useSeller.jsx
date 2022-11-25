@@ -9,7 +9,9 @@ const useSeller = (email) => {
       const url = `${import.meta.env.VITE_server_url}seller?email=${email}`;
       axios
         .get(url, {
-          authorization: `Bearer ${localStorage.getItem("lmt")}`,
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("lmt")}`,
+          },
         })
         .then((result) => {
           setIsSeller(result.data.isSeller);

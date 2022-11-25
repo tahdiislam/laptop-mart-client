@@ -6,7 +6,7 @@ import { UserContext } from "../Context/AuthProvider";
 import useSeller from "../Hooks/useSeller";
 
 const RequireSeller = ({ children }) => {
-  const { user, logOut } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { isSeller, loading } = useSeller(user?.email);
   if (loading) {
     return <Loading />;
@@ -14,7 +14,7 @@ const RequireSeller = ({ children }) => {
   if (isSeller) {
     return children;
   } else {
-    return <Navigate to="/"/>
+    return <Navigate to="/" />;
   }
 };
 

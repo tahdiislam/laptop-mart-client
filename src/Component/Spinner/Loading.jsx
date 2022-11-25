@@ -1,7 +1,11 @@
 import React from "react";
 
-const Loading = () => {
-  return <button className="btn btn-primary loading">loading...</button>;
+const Loading = ({classes, size}) => {
+  return (
+    <div className={`h-max w-full flex justify-center items-center ${classes}`}>
+      <div className={`border border-2 rounded-full animate-spin border-primary h-8 w-8 border-dashed ${size}`}></div>
+    </div>
+  );
 };
 
 export default Loading;

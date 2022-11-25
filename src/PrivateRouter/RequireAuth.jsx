@@ -7,7 +7,7 @@ const RequireAuth = ({ children }) => {
   const { user, loading } = useContext(UserContext);
   const location = useLocation();
   if (loading) {
-    return <Loading/>
+    return <Loading />;
   }
   if (user && user?.uid) {
     return children;

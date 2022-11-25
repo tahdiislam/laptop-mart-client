@@ -1,9 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Main from "../Layout/Main";
+import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
+import AddProduct from "../Pages/Dashboard/Seller/AddProduct";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import RequireAuth from "../PrivateRouter/RequireAuth";
+import RequireSeller from "../PrivateRouter/RequireSeller";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +33,17 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       {
-        path: "/dashboard/mystole",
+        path: "/dashboard",
+        element: (
+          <RequireAuth>
+            <MyProfile />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: "/dashboard/add-product", element: <RequireSeller>
+          <AddProduct/>
+        </RequireSeller>
       },
     ],
   },
