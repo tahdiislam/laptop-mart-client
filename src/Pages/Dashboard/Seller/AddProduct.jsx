@@ -79,6 +79,7 @@ const AddProduct = () => {
             .then((res) => {
               if (res.data.result.acknowledged) {
                 toast.success("Product added successfully");
+                navigate("/dashboard/my-products")
               }
             })
             .catch((err) => {

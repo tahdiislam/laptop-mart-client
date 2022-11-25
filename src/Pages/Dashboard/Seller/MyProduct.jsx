@@ -40,7 +40,7 @@ const MyProduct = () => {
               {data.products.map((product) => (
                 <tr key={product._id}>
                   <th>
-                    <button className="btn btn-square">
+                    <button className="btn btn-error btn-circle btn-outline">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"
@@ -70,11 +70,23 @@ const MyProduct = () => {
                     </div>
                   </td>
                   <td>{product.price}</td>
-                  <td></td>
                   <td>
-                    <button className="btn text-primary btn-ghost btn-sm">
-                      Advertise
-                    </button>
+                    {product.sold ? (
+                      <p className="text-primary text-lg font-semibold">Sold</p>
+                    ) : (
+                      <p className="text-blue-500 font-semibold text-lg">
+                        Unsold
+                      </p>
+                    )}
+                  </td>
+                  <td>
+                    {product.advertise ? (
+                      <p>Sponsor added</p>
+                    ) : (
+                      <button className="btn btn-primary btn-xs">
+                        Advertise
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
