@@ -75,6 +75,7 @@ const MyProduct = () => {
           if (res.data.result.deletedCount) {
             toast.success("Product deleted successfully.");
             refetch();
+            setDeleteProduct(null);
           }
         })
         .catch((err) => {
@@ -90,8 +91,6 @@ const MyProduct = () => {
           }
         });
     }
-
-    setDeleteProduct(null);
   };
 
   if (isLoading) {

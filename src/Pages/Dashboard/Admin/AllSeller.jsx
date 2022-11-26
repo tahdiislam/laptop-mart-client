@@ -2,11 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../../../Component/ConfirmModal/ConfirmModal";
 import { UserContext } from "../../../Context/AuthProvider";
 
 const AllSeller = () => {
   const [deleteUser, setDeleteUser] = useState(null);
+  const { logOut } = useContext(UserContext);
+  const navigate = useNavigate();
   // get all the sellers
   const {
     data = [],
@@ -31,7 +34,7 @@ const AllSeller = () => {
   const handleDeleteUser = () => {
     // delete user
     axios
-      .delete(`${import.meta.env.VITE_server_url}user?id=${deleteUser._id}`, {
+      .delete(`${import.meta.env.VITE_server_url}user/${deleteUser._id}`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("lmt")}`,
         },
@@ -40,10 +43,12 @@ const AllSeller = () => {
         if (res.data.result.deletedCount) {
           toast.success("Product deleted successfully.");
           refetch();
+          setDeleteUser(null);
         }
       })
       .catch((err) => {
-        if (err.response.status) {
+        console.log(err);
+        if (err.response.status === 401 || err.response.status === 403) {
           logOut()
             .then(() => {
               toast.error("Session Expired Please login again");
