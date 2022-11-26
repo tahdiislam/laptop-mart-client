@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import ConfirmModal from "../../../Component/ConfirmModal/ConfirmModal";
 import Loading from "../../../Component/Spinner/Loading";
 
 const MyProduct = () => {
+  const [deleteProduct, setDeleteProduct] = useState({});
   // get all the product
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["users"],
@@ -34,8 +36,8 @@ const MyProduct = () => {
       )
       .then((res) => {
         if (res.data.result.modifiedCount) {
-          toast.success("Advertized successfully")
-          refetch()
+          toast.success("Advertized successfully");
+          refetch();
         }
       })
       .catch((err) => {
@@ -50,6 +52,13 @@ const MyProduct = () => {
             });
         }
       });
+  };
+
+  // delete product handler
+  const handleDeleteProduct = () => {
+    // delete product
+    console.log(deleteProduct.name);
+    setDeleteProduct(null);
   };
 
   if (isLoading) {
@@ -77,7 +86,11 @@ const MyProduct = () => {
               {data?.products?.map((product) => (
                 <tr key={product._id}>
                   <th>
-                    <button className="btn btn-error btn-circle btn-outline">
+                    <label
+                      onClick={() => setDeleteProduct(product)}
+                      htmlFor="confirm-modal"
+                      className="btn btn-error btn-circle btn-outline"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"
@@ -92,7 +105,7 @@ const MyProduct = () => {
                           d="M6 18L18 6M6 6l12 12"
                         />
                       </svg>
-                    </button>
+                    </label>
                   </th>
                   <td>
                     <div className="flex items-center space-x-3">
@@ -132,6 +145,14 @@ const MyProduct = () => {
               ))}
             </tbody>
           </table>
+          {deleteProduct && (
+            <ConfirmModal
+              deleteProduct={deleteProduct}
+              setDeleteProduct={setDeleteProduct}
+              handler={handleDeleteProduct}
+              text="Are you sure you want to delete this product?"
+            />
+          )}
         </div>
       </div>
     </div>
