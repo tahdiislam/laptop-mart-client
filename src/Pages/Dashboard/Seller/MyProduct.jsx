@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import React from "react";
+import toast from "react-hot-toast";
 import Loading from "../../../Component/Spinner/Loading";
 
 const MyProduct = () => {
+  // get all the product
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
@@ -15,6 +18,40 @@ const MyProduct = () => {
       return data;
     },
   });
+
+  // advertised product
+  const handleAdvertise = (_id) => {
+    // update product
+    axios
+      .patch(
+        `${import.meta.env.VITE_server_url}products/${_id}`,
+        {},
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("lmt")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.result.modifiedCount) {
+          toast.success("Advertized successfully")
+          refetch()
+        }
+      })
+      .catch((err) => {
+        if (err.response.status) {
+          logOut()
+            .then(() => {
+              toast.error("Session Expired Please login again");
+              navigate("/login");
+            })
+            .catch((err) => {
+              console.log(err.message);
+            });
+        }
+      });
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -37,7 +74,7 @@ const MyProduct = () => {
               </tr>
             </thead>
             <tbody>
-              {data.products.map((product) => (
+              {data?.products?.map((product) => (
                 <tr key={product._id}>
                   <th>
                     <button className="btn btn-error btn-circle btn-outline">
@@ -83,7 +120,10 @@ const MyProduct = () => {
                     {product.advertise ? (
                       <p>Sponsor added</p>
                     ) : (
-                      <button className="btn btn-primary btn-xs">
+                      <button
+                        onClick={() => handleAdvertise(product._id)}
+                        className="btn btn-primary btn-xs"
+                      >
                         Advertise
                       </button>
                     )}
