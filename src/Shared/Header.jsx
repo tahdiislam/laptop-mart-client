@@ -16,9 +16,9 @@ const Header = () => {
         navigate("/login");
       })
       .catch((err) => console.log(err.message))
-      .finally(() =>{
-        setLoading(false)
-      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   // nav items
@@ -26,8 +26,14 @@ const Header = () => {
     <>
       <li>
         <Link to="/">Home</Link>
-        <Link to="/dashboard">Dashboard</Link>
       </li>
+      {!user?.uid ? undefined : (
+        <>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -65,11 +71,22 @@ const Header = () => {
           <ul className="menu menu-horizontal p-0 text-xl">{navItems}</ul>
         </div>
         <div className="navbar-end">
-          {user?.uid ? <button onClick={handleLogOut} className="btn btn-primary">
-            Log Out
-          </button> : <><Link to="/login" className="mr-3"><button className="btn btn-primary">Login</button></Link>
-          <Link to="/register"><button className="btn btn-primary btn-outline">Register</button></Link>
-          </>}
+          {user?.uid ? (
+            <button onClick={handleLogOut} className="btn btn-primary">
+              Log Out
+            </button>
+          ) : (
+            <>
+              <Link to="/login" className="mr-3">
+                <button className="btn btn-primary">Login</button>
+              </Link>
+              <Link to="/register">
+                <button className="btn btn-primary btn-outline">
+                  Register
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </section>

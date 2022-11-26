@@ -47,7 +47,7 @@ const Register = () => {
           // create user
           createUserWithEmailPassword(email, password)
             .then((result) => {
-              console.log(result.user);
+              console.log();
               const userInfo = {
                 displayName: name,
                 photoURL: imageUrl,
@@ -63,6 +63,7 @@ const Register = () => {
                     role,
                     userVerified: false,
                     image: imageUrl,
+                    uid: result.user.uid,
                   };
                   const url = `${import.meta.env.VITE_server_url}users`;
                   axios
@@ -74,19 +75,21 @@ const Register = () => {
                     })
                     .catch((err) => console.log(err.message));
                 })
-                .catch((err) => toast.error(
-                  err.message
-                    .split("Firebase: ")
-                    .join("")
-                    .split(" (")
-                    .join(": ")
-                    .split("/")
-                    .join(" ")
-                    .split("-")
-                    .join(" ")
-                    .split(")")
-                    .join("")
-                ));
+                .catch((err) =>
+                  toast.error(
+                    err.message
+                      .split("Firebase: ")
+                      .join("")
+                      .split(" (")
+                      .join(": ")
+                      .split("/")
+                      .join(" ")
+                      .split("-")
+                      .join(" ")
+                      .split(")")
+                      .join("")
+                  )
+                );
             })
             .catch((err) =>
               toast.error(
