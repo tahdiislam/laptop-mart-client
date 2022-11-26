@@ -1,3 +1,5 @@
+import { async } from "@firebase/util";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
@@ -9,6 +11,28 @@ const AdminAction = () => {
   const navigate = useNavigate();
   // image bb api key
   const imageBbApiKey = import.meta.env.VITE_IMAGE_BB_API_KEY;
+
+  const {
+    data: categories = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["category"],
+    queryFn: async () => {
+      const data = axios
+        .get(`${import.meta.env.VITE_server_url}category`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("lmt")}`,
+          },
+        })
+        .then((res) => res.data.result)
+        .catch((err) => console.log(err));
+      return data;
+    },
+  });
+
+  console.log(categories);
+
   // add category handler
   const handleAddCategory = (event) => {
     event.preventDefault();
@@ -38,12 +62,18 @@ const AdminAction = () => {
             .then((res) => {
               // category post done
               if (res.data.result.acknowledged) {
+                refetch();
                 toast.success("Category added successfully!");
               }
             })
             .catch((err) => {
-              console.log(err);
-              if (err.response.status === 401 || err.response.status === 403) {
+              if (err?.response?.status === 409) {
+                toast.error("This Category Already exist!");
+              }
+              if (
+                err?.response?.status === 401 ||
+                err?.response?.status === 403
+              ) {
                 logOut()
                   .then(() => {
                     toast.error("Session Expired Please login again");
@@ -132,10 +162,12 @@ const AdminAction = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th className="text-center">1</th>
-                <th className="text-center">Apple</th>
-              </tr>
+              {categories.map((category, i) => (
+                <tr key={category._id}>
+                  <th className="text-center">{i + 1}</th>
+                  <th className="text-center">{category.category}</th>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
