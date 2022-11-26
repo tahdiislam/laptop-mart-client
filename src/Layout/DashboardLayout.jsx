@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Loading from "../Component/Spinner/Loading";
 import { UserContext } from "../Context/AuthProvider";
+import useAdmin from "../Hooks/useAdmin";
 import useSeller from "../Hooks/useSeller";
 import Footer from "../Shared/Footer";
 import Header from "../Shared/Header";
@@ -9,7 +10,12 @@ import Header from "../Shared/Header";
 const DashboardLayout = () => {
   const { user, loading: userLoading } = useContext(UserContext);
 
+  // verify seller
   const { isSeller, loading } = useSeller(user?.email);
+
+  // verify admin
+  const { isAdmin, loading: adminLoading } = useAdmin(user?.email);
+  console.log("isSeller", isSeller, "isAdmin", isAdmin);
 
   if (userLoading) {
     return <Loading classes="mt-6" size="h-8 w-8" />;
@@ -45,20 +51,37 @@ const DashboardLayout = () => {
             <li>
               <Link to="/dashboard">My Profile</Link>
             </li>
-            {!loading ? (
+            {loading || adminLoading ? (
+              <Loading size="w-6 h-6" />
+            ) : (
               <>
                 {isSeller && (
                   <>
                     <li>
                       <Link to="/dashboard/add-product">Add Product</Link>
+                    </li>
+                    <li>
                       <Link to="/dashboard/my-products">My Products</Link>
+                    </li>
+                    <li>
                       <Link to="/dashboard/my-buyers">My Buyers</Link>
                     </li>
                   </>
                 )}
+                {isAdmin && (
+                  <>
+                    <li>
+                      <Link to="/dashboard/all-sellers">All Sellers</Link>
+                    </li>
+                    <li>
+                      <Link to="/dashboard/all-buyers">All Buyers</Link>
+                    </li>
+                    <li>
+                      <Link to="/dashboard/admin-action">Admin Action</Link>
+                    </li>
+                  </>
+                )}
               </>
-            ) : (
-              <Loading size="w-6 h-6" />
             )}
           </ul>
         </div>
