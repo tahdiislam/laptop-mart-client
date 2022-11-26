@@ -15,7 +15,6 @@ const DashboardLayout = () => {
 
   // verify admin
   const { isAdmin, loading: adminLoading } = useAdmin(user?.email);
-  console.log("isSeller", isSeller, "isAdmin", isAdmin);
 
   if (userLoading) {
     return <Loading classes="mt-6" size="h-8 w-8" />;

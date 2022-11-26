@@ -1,6 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Main from "../Layout/Main";
+import AdminAction from "../Pages/Dashboard/Admin/AdminAction";
+import AllBuyers from "../Pages/Dashboard/Admin/AllBuyers";
+import AllSeller from "../Pages/Dashboard/Admin/AllSeller";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 import AddProduct from "../Pages/Dashboard/Seller/AddProduct";
 import MyProduct from "../Pages/Dashboard/Seller/MyProduct";
@@ -8,6 +11,7 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import RequireAdmin from "../PrivateRouter/RequireAdmin";
 import RequireAuth from "../PrivateRouter/RequireAuth";
 import RequireSeller from "../PrivateRouter/RequireSeller";
 
@@ -58,8 +62,32 @@ const router = createBrowserRouter([
         path: "/dashboard/my-products",
         element: (
           <RequireSeller>
-            <MyProduct/>
+            <MyProduct />
           </RequireSeller>
+        ),
+      },
+      {
+        path: "/dashboard/all-sellers",
+        element: (
+          <RequireAdmin>
+            <AllSeller />
+          </RequireAdmin>
+        ),
+      },
+      {
+        path: "/dashboard/all-buyers",
+        element: (
+          <RequireAdmin>
+            <AllBuyers />
+          </RequireAdmin>
+        ),
+      },
+      {
+        path: "/dashboard/admin-action",
+        element: (
+          <RequireAdmin>
+            <AdminAction />
+          </RequireAdmin>
         ),
       },
     ],
