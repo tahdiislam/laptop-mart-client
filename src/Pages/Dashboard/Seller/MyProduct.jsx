@@ -1,12 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../../../Component/ConfirmModal/ConfirmModal";
 import Loading from "../../../Component/Spinner/Loading";
+import { UserContext } from "../../../Context/AuthProvider";
 
 const MyProduct = () => {
-  const [deleteProduct, setDeleteProduct] = useState({});
+  const [deleteProduct, setDeleteProduct] = useState(null);
+  const { logOut } = useContext(UserContext);
+  const navigate = useNavigate();
   // get all the product
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["users"],
@@ -57,14 +61,42 @@ const MyProduct = () => {
   // delete product handler
   const handleDeleteProduct = () => {
     // delete product
-    console.log(deleteProduct.name);
+    if (deleteProduct) {
+      axios
+        .delete(
+          `${import.meta.env.VITE_server_url}products/${deleteProduct._id}`,
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("lmt")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.result.deletedCount) {
+            toast.success("Product deleted successfully.");
+            refetch();
+          }
+        })
+        .catch((err) => {
+          if (err.response.status) {
+            logOut()
+              .then(() => {
+                toast.error("Session Expired Please login again");
+                navigate("/login");
+              })
+              .catch((err) => {
+                console.log(err.message);
+              });
+          }
+        });
+    }
+
     setDeleteProduct(null);
   };
 
   if (isLoading) {
     return <Loading />;
   }
-  console.log(data.products);
   return (
     <div>
       <h1 className="text-4xl font-bold text-left ml-4 text-primary">
