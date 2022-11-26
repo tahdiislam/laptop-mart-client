@@ -107,10 +107,10 @@ const Register = () => {
   };
 
   return (
-    <section>
+    <section className="w-full px-4 md:px-0">
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
-          <div className="w-1/2 text-center lg:text-left">
+          <div className="w-full md:w-1/2 text-center lg:text-left">
             <h1 className="text-5xl font-bold">Register</h1>
             <p className="py-6">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
@@ -118,7 +118,7 @@ const Register = () => {
               et a id nisi.
             </p>
           </div>
-          <div className="card w-1/2 shadow-2xl bg-base-100">
+          <div className="card w-full md:w-1/2 shadow-2xl bg-base-100">
             <form onSubmit={handleSubmit(handleLogin)} className="card-body">
               <h3 className="text-3xl font-semibold text-center">Register</h3>
               <div className="form-control">
