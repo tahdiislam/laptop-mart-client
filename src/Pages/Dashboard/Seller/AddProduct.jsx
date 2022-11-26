@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -7,7 +8,8 @@ import { UserContext } from "../../../Context/AuthProvider";
 
 const AddProduct = () => {
   const [condition, setCondition] = useState("Good");
-  const [category, setCategory] = useState("HP");
+  const [category, setCategory] = useState(null);
+  const [categoryError, setCategoryError] = useState("");
   const { logOut, user } = useContext(UserContext);
   const navigate = useNavigate();
   const {
@@ -15,10 +17,33 @@ const AddProduct = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  // imgbb api key
   const imageBbApiKey = import.meta.env.VITE_IMAGE_BB_API_KEY;
+
+  // load category
+  const { data: categories = [] } = useQuery({
+    queryKey: ["category"],
+    queryFn: async () => {
+      const data = axios
+        .get(`${import.meta.env.VITE_server_url}category`, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("lmt")}`,
+          },
+        })
+        .then((res) => res.data.result)
+        .catch((err) => console.log(err));
+      return data;
+    },
+  });
 
   // add product handler
   const handleAddProduct = (data) => {
+    setCategoryError("");
+    if (category === null) {
+      setCategoryError("Please select a category!");
+      return;
+    }
     // product info
     const name = data.name;
     const price = data.price;
@@ -61,7 +86,7 @@ const AddProduct = () => {
             screenSize,
             location,
             condition,
-            category,
+            categoryId: category,
             data: new Date().toISOString().slice(0, 10),
             sellerImg: user.photoURL,
             sold: false,
@@ -79,7 +104,7 @@ const AddProduct = () => {
             .then((res) => {
               if (res.data.result.acknowledged) {
                 toast.success("Product added successfully");
-                navigate("/dashboard/my-products")
+                navigate("/dashboard/my-products");
               }
             })
             .catch((err) => {
@@ -170,13 +195,18 @@ const AddProduct = () => {
                   required
                   className="select select-primary w-full"
                 >
-                  <option value="Apple">Apple</option>
-                  <option value="HP">HP</option>
-                  <option value="Lenovo">Lenovo</option>
-                  <option value="Dell">Dell</option>
-                  <option value="Acer">Acer</option>
-                  <option value="Asus">Asus</option>
+                  <option disabled defaultValue="selected">
+                    Selected
+                  </option>
+                  {categories?.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.category}
+                    </option>
+                  ))}
                 </select>
+                {categoryError && (
+                  <p className="text-red-500 mt-2">{categoryError}</p>
+                )}
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
