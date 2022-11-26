@@ -1,12 +1,14 @@
 import { async } from "@firebase/util";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../../Component/Spinner/Loading";
 import { UserContext } from "../../../Context/AuthProvider";
 
 const AdminAction = () => {
+  const [disabled, setDisabled] = useState(false);
   const { logOut } = useContext(UserContext);
   const navigate = useNavigate();
   // image bb api key
@@ -34,6 +36,7 @@ const AdminAction = () => {
   // add category handler
   const handleAddCategory = (event) => {
     event.preventDefault();
+    setDisabled(true)
     const category = event.target.category.value;
     const image = event.target.image.files[0];
     const formData = new FormData();
@@ -43,7 +46,8 @@ const AdminAction = () => {
       .post(`https://api.imgbb.com/1/upload?key=${imageBbApiKey}`, formData)
       .then((res) => {
         if (res.data.success) {
-          const imageUrl = res.data?.ata?.image?.url;
+          const imageUrl = res.data?.data?.image?.url;
+          console.log(imageUrl);
           axios
             .post(
               `${import.meta.env.VITE_server_url}category`,
@@ -62,11 +66,13 @@ const AdminAction = () => {
               if (res.data.result.acknowledged) {
                 refetch();
                 toast.success("Category added successfully!");
+                setDisabled(false)
               }
             })
             .catch((err) => {
               if (err?.response?.status === 409) {
                 toast.error("This Category Already exist!");
+                setDisabled(false)
               }
               if (
                 err?.response?.status === 401 ||
@@ -79,6 +85,7 @@ const AdminAction = () => {
                   })
                   .catch((err) => {
                     console.log(err.message);
+                    setDisabled(false)
                   });
               }
             });
@@ -98,9 +105,9 @@ const AdminAction = () => {
         }
       });
   };
-
-  /*  */
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div>
       <h1 className="text-4xl font-bold text-start ml-4 mb-4 text-primary">
@@ -131,7 +138,7 @@ const AdminAction = () => {
                   placeholder="add category"
                   className="input input-bordered input-primary"
                 />
-                <button type="submit" className="btn btn-square btn-primary">
+                <button type="submit" className="btn btn-square btn-primary" disabled={disabled}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
