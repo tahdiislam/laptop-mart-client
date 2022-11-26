@@ -31,8 +31,6 @@ const AdminAction = () => {
     },
   });
 
-  console.log(categories);
-
   // add category handler
   const handleAddCategory = (event) => {
     event.preventDefault();
@@ -45,7 +43,7 @@ const AdminAction = () => {
       .post(`https://api.imgbb.com/1/upload?key=${imageBbApiKey}`, formData)
       .then((res) => {
         if (res.data.success) {
-          const imageUrl = res.data.data.medium.url;
+          const imageUrl = res.data?.ata?.image?.url;
           axios
             .post(
               `${import.meta.env.VITE_server_url}category`,
@@ -88,7 +86,7 @@ const AdminAction = () => {
       })
       .catch((err) => {
         console.log(err);
-        if (err.response.status === 401 || err.response.status === 403) {
+        if (err?.response?.status === 401 || err?.response?.status === 403) {
           logOut()
             .then(() => {
               toast.error("Session Expired Please login again");
