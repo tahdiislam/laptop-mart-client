@@ -1,67 +1,137 @@
 import React from "react";
 
-const ProductCard = ({ product }) => {
-  const { imageUrl } = product;
+const ProductCard = ({ product, category }) => {
+  const {
+    imageUrl,
+    condition,
+    color,
+    cpuModel,
+    data,
+    description,
+    graphicsModel,
+    hardDiskSize,
+    location,
+    name,
+    originalPrice,
+    price,
+    purchaseDate,
+    sellerEmail,
+    sellerImg,
+    sellerName,
+    userVerified,
+    ram,
+    screenSize,
+    operatingSystem,
+  } = product;
+  console.log(product);
   return (
     <div class="p-4 w-full">
-      <div class="h-full border-2 border-gray-800 rounded-lg overflow-hidden">
+      <div class="h-full border border-primary rounded-lg overflow-hidden shadow-lg">
         <img class="w-full" src={imageUrl} alt="blog" />
         <div class="p-6">
-          <h2 class="tracking-widest text-xs title-font font-medium text-gray-500 mb-1">
-            CATEGORY
-          </h2>
-          <h1 class="title-font text-lg font-medium text-white mb-3">
-            The Catalyzer
-          </h1>
-          <p class="leading-relaxed mb-3">
-            Photo booth fam kinfolk cold-pressed sriracha leggings jianbing
-            microdosing tousled waistcoat.
-          </p>
-          <div class="flex items-center flex-wrap ">
-            <a class="text-indigo-400 inline-flex items-center md:mb-2 lg:mb-0">
-              Learn More
+          <div className="flex justify-start gap-2 my-1">
+            <h3 className="text-xl font-bold">{name}</h3>
+            <h3 className="text-sm font-semibold">{category}</h3>
+          </div>
+          <div className="grid grid-cols-2">
+            <div>
+              <h3 className="badge badge-primary">{location}</h3>
+              <div>
+                <p className="text-xl font-bold">
+                  Price: <span className="text-primary">$ {price}</span>
+                </p>
+                <p className="text-xl">
+                  Original price: <span>$ {originalPrice}</span>
+                </p>
+              </div>
+              <div>
+                <p className="text-xl font-medium">Used Duration: 2</p>
+                <p className="text-lg">Post on: {data}</p>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg text-start font-bold">Specification</h3>
+              <h4>Processor: {cpuModel}</h4>
+              <h4>RAM: {ram}</h4>
+              <h4>Storage: {hardDiskSize}</h4>
+              <h4>Graphics: {graphicsModel}</h4>
+              <h4>Display: {screenSize}</h4>
+              <h4>Color: {color}</h4>
+              <h4>Operation System: {operatingSystem}</h4>
+              <h4>Condition: {condition}</h4>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 my-1">
+            <div className="avatar">
+              <div className="w-12 rounded-full">
+                <img src={sellerImg} />
+              </div>
+            </div>
+            <div className="flex flex-col items-start">
+              <div className="flex items-center gap-1">
+                <p className="font-bold">{sellerName}</p>
+                {userVerified ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5 text-primary"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+                    />
+                  </svg>
+                ) : (
+                  <>
+                    <small className="text-error">{"(not verified)"}</small>
+                  </>
+                )}
+              </div>
+              <p>{sellerEmail}</p>
+            </div>
+          </div>
+          <div className="my-2 w-full">
+            <button className="btn btn-primary w-full">Book Now</button>
+          </div>
+          <div className="divider"></div>
+          <div className="flex justify-center">
+            <button className="btn btn-ghost btn-circle">
               <svg
-                class="w-4 h-4 ml-2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
+                xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
               >
-                <path d="M5 12h14"></path>
-                <path d="M12 5l7 7-7 7"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                />
               </svg>
-            </a>
-            <span class="text-gray-500 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-800">
+            </button>
+            <div className="divider divider-horizontal"></div>
+            <button className="btn btn-ghost btn-circle">
               <svg
-                class="w-4 h-4 mr-1"
-                stroke="currentColor"
-                stroke-width="2"
+                xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
                 viewBox="0 0 24 24"
-              >
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-              1.2K
-            </span>
-            <span class="text-gray-500 inline-flex items-center leading-none text-sm">
-              <svg
-                class="w-4 h-4 mr-1"
+                stroke-width="1.5"
                 stroke="currentColor"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                viewBox="0 0 24 24"
+                class="w-6 h-6"
               >
-                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
+                />
               </svg>
-              6
-            </span>
+            </button>
           </div>
         </div>
       </div>
