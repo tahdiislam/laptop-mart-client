@@ -50,6 +50,9 @@ const DashboardLayout = () => {
             <li>
               <Link to="/dashboard">My Profile</Link>
             </li>
+            <li>
+              <Link to="/dashboard/my-orders">My Orders</Link>
+            </li>
             {loading || adminLoading ? (
               <Loading size="w-6 h-6" />
             ) : (

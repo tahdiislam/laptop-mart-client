@@ -11,6 +11,7 @@ import MyProduct from "../Pages/Dashboard/Seller/MyProduct";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Login/Login";
+import MyOrders from "../Pages/MyOrders/MyOrders";
 import Register from "../Pages/Register/Register";
 import RequireAdmin from "../PrivateRouter/RequireAdmin";
 import RequireAuth from "../PrivateRouter/RequireAuth";
@@ -62,6 +63,14 @@ const router = createBrowserRouter([
         element: (
           <RequireAuth>
             <MyProfile />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: "/dashboard/my-orders",
+        element: (
+          <RequireAuth>
+            <MyOrders/>
           </RequireAuth>
         ),
       },

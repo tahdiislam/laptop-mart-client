@@ -5,7 +5,6 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-  updateCurrentUser,
   updateProfile,
 } from "firebase/auth";
 import app from "../Firebase/firebase.config";

@@ -4,7 +4,6 @@ const ConfirmModal = ({ handler, deleteProduct, text, setDeleteProduct }) => {
   const { name } = deleteProduct;
   return (
     <div>
-      {/* Put this part before </body> tag */}
       <input type="checkbox" id="confirm-modal" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">

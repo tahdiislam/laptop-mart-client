@@ -4,9 +4,9 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
 
-const BookingModal = ({ product, handler, buyerName, email, closeModal }) => {
+const BookingModal = ({ product, buyerName, email, closeModal }) => {
   const [disabled, setDisabled] = useState(false);
-  const { sellerEmail, name, price, _id } = product;
+  const { sellerEmail, name, price, _id, imageUrl } = product;
   const { logOut } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -23,11 +23,13 @@ const BookingModal = ({ product, handler, buyerName, email, closeModal }) => {
           sellerEmail,
           price,
           productId: _id,
+          productImg: imageUrl,
           buyerName,
           buyerEmail: email,
           productName: name,
           phoneNumber,
           meetingLocation,
+          paid: false,
         },
         {
           headers: {
