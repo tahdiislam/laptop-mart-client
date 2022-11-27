@@ -6,6 +6,7 @@ import AdminAction from "../Pages/Dashboard/Admin/AdminAction";
 import AllBuyers from "../Pages/Dashboard/Admin/AllBuyers";
 import AllSeller from "../Pages/Dashboard/Admin/AllSeller";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
+import Payment from "../Pages/Dashboard/Payment.jsx/Payment";
 import AddProduct from "../Pages/Dashboard/Seller/AddProduct";
 import MyProduct from "../Pages/Dashboard/Seller/MyProduct";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
@@ -70,9 +71,23 @@ const router = createBrowserRouter([
         path: "/dashboard/my-orders",
         element: (
           <RequireAuth>
-            <MyOrders/>
+            <MyOrders />
           </RequireAuth>
         ),
+      },
+      {
+        path: "/dashboard/my-orders/payment/:id",
+        element: (
+          <RequireAuth>
+            <Payment />
+          </RequireAuth>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_server_url}bookings/${params.id}`, {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("lmt")}`,
+            },
+          }),
       },
       {
         path: "/dashboard/add-product",

@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ConfirmModal from "../../Component/ConfirmModal/ConfirmModal";
+import Loading from "../../Component/Spinner/Loading";
 import { UserContext } from "../../Context/AuthProvider";
 
 const MyOrders = () => {
@@ -62,6 +63,11 @@ const MyOrders = () => {
         }
       });
   };
+
+  // spinner
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div>
       <h1 className="text-4xl font-bold text-left ml-4 text-primary mb-4">
@@ -122,7 +128,9 @@ const MyOrders = () => {
                     {booking?.paid ? (
                       <p className="text-primary text-xl font-semibold">PAID</p>
                     ) : (
-                      <button className="btn btn-primary btn-xs">Pay</button>
+                      <Link to={`/dashboard/my-orders/payment/${booking._id}`}>
+                        <button className="btn btn-primary btn-xs">Pay</button>
+                      </Link>
                     )}
                   </td>
                 </tr>
