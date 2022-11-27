@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import BookingModal from "../Component/BookingModal/BookingModal";
+import { UserContext } from "../Context/AuthProvider";
 
 const ProductCard = ({ product, category }) => {
+  const [bookingProduct, setBookingProduct] = useState(null);
+  const { user } = useContext(UserContext);
   const {
     imageUrl,
     condition,
     color,
     cpuModel,
     data,
-    description,
     graphicsModel,
     hardDiskSize,
     location,
     name,
     originalPrice,
     price,
-    purchaseDate,
     sellerEmail,
     sellerImg,
     sellerName,
@@ -23,12 +25,16 @@ const ProductCard = ({ product, category }) => {
     screenSize,
     operatingSystem,
   } = product;
-  console.log(product);
+
+  // booking product handler
+  const handleBookingProduct = () => {
+    console.log(bookingProduct.name);
+  };
   return (
-    <div class="p-4 w-full">
-      <div class="h-full border border-primary rounded-lg overflow-hidden shadow-lg">
-        <img class="w-full" src={imageUrl} alt="blog" />
-        <div class="p-6">
+    <div className="p-4 w-full">
+      <div className="h-full border border-primary rounded-lg overflow-hidden shadow-lg">
+        <img className="w-full" src={imageUrl} alt="blog" />
+        <div className="p-6">
           <div className="flex justify-start gap-2 my-1">
             <h3 className="text-xl font-bold">{name}</h3>
             <h3 className="text-sm font-semibold">{category}</h3>
@@ -95,7 +101,13 @@ const ProductCard = ({ product, category }) => {
             </div>
           </div>
           <div className="my-2 w-full">
-            <button className="btn btn-primary w-full">Book Now</button>
+            <label
+              onClick={() => setBookingProduct(product)}
+              htmlFor="booking-modal"
+              className="btn btn-primary w-full"
+            >
+              Book Now
+            </label>
           </div>
           <div className="divider"></div>
           <div className="flex justify-center">
@@ -104,13 +116,13 @@ const ProductCard = ({ product, category }) => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
                 />
               </svg>
@@ -121,13 +133,13 @@ const ProductCard = ({ product, category }) => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
                 />
               </svg>
@@ -135,6 +147,14 @@ const ProductCard = ({ product, category }) => {
           </div>
         </div>
       </div>
+      {bookingProduct && (
+        <BookingModal
+          product={bookingProduct}
+          buyerName={user?.displayName}
+          email={user?.email}
+          closeModal={setBookingProduct}
+        />
+      )}
     </div>
   );
 };

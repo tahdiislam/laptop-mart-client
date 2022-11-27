@@ -39,15 +39,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/category/:id",
-        element: <SingleBrand />,
-        loader: ({ params }) => fetch(
-          `${import.meta.env.VITE_server_url}brand/${params.id}`,
-          {
+        element: (
+          <RequireAuth>
+            <SingleBrand />
+          </RequireAuth>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_server_url}brand/${params.id}`, {
             headers: {
               authorization: `Bearer ${localStorage.getItem("lmt")}`,
             },
-          }
-        )
+          }),
       },
     ],
   },

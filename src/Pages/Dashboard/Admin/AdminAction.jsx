@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useContext, useState } from "react";
@@ -47,7 +46,6 @@ const AdminAction = () => {
       .then((res) => {
         if (res.data.success) {
           const imageUrl = res.data?.data?.image?.url;
-          console.log(imageUrl);
           axios
             .post(
               `${import.meta.env.VITE_server_url}category`,

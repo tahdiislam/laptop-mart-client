@@ -42,7 +42,7 @@ const Register = () => {
       .post(`https://api.imgbb.com/1/upload?key=${imageBbApiKey}`, formData)
       .then((res) => {
         if (res.data.success) {
-          const imageUrl = res.data.data.medium.url;
+          const imageUrl = res.data?.data?.image?.url;
 
           // create user
           createUserWithEmailPassword(email, password)
