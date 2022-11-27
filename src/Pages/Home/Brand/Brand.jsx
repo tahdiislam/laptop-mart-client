@@ -2,10 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
+import Loading from "../../../Component/Spinner/Loading";
 
 const Brand = () => {
   // load category
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [], isLoading } = useQuery({
     queryKey: ["category"],
     queryFn: async () => {
       const data = axios
@@ -19,7 +20,16 @@ const Brand = () => {
       return data;
     },
   });
-  console.log(categories);
+
+  // spinner
+  if (isLoading) {
+    return (
+      <div className="py-20">
+        <Loading size="w-12 h-12"/>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h2 className="text-4xl font-bold text-primary text-center my-6">
@@ -28,23 +38,22 @@ const Brand = () => {
       <div className="px-4 md:px-0 pb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories?.map((category) => (
-            <div
-              key={category._id}
-              className="card bg-base-100 shadow-xl image-full"
-            >
-              <figure>
-                <img src={category.imageUrl} />
-              </figure>
-              <div className="card-body">
-                <div className="h-full card-actions justify-center items-center">
-                  <Link to={`/category/${category._id}`}>
-                    <button className="btn btn-ghost text-primary text-4xl">
+            <Link to={`/category/${category._id}`} aria-label="View Item">
+              <div className="relative overflow-hidden transition duration-200 transform rounded-xl shadow-lg hover:-translate-y-2 hover:shadow-2xl">
+                <img
+                  className="image-full w-full h-56 md:h-64 xl:h-80"
+                  src={category.imageUrl}
+                  alt=""
+                />
+                <div className="absolute inset-0 px-6 py-4 transition-opacity duration-200 bg-primary bg-opacity-10 opacity-0 hover:opacity-100">
+                  <div className="h-full flex justify-start items-start">
+                    <button className="btn text-primary btn-ghost text-4xl ">
                       {category.category}
                     </button>
-                  </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
