@@ -63,7 +63,7 @@ const Header = () => {
               {navItems}
             </ul>
           </div>
-          <Link className="btn btn-ghost normal-case text-2xl font-bold">
+          <Link to="/" className="btn btn-ghost normal-case text-2xl font-bold">
             Laptop Mart
           </Link>
         </div>

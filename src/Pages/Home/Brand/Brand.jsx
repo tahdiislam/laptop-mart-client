@@ -10,11 +10,7 @@ const Brand = () => {
     queryKey: ["category"],
     queryFn: async () => {
       const data = axios
-        .get(`${import.meta.env.VITE_server_url}category`, {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("lmt")}`,
-          },
-        })
+        .get(`${import.meta.env.VITE_server_url}category`)
         .then((res) => res.data.result)
         .catch((err) => console.log(err));
       return data;
@@ -25,7 +21,7 @@ const Brand = () => {
   if (isLoading) {
     return (
       <div className="py-20">
-        <Loading size="w-12 h-12"/>
+        <Loading size="w-12 h-12" />
       </div>
     );
   }
@@ -38,7 +34,7 @@ const Brand = () => {
       <div className="px-4 md:px-0 pb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories?.map((category) => (
-            <Link to={`/category/${category._id}`} aria-label="View Item">
+            <Link key={category._id} to={`/category/${category._id}`} aria-label="View Item">
               <div className="relative overflow-hidden transition duration-200 transform rounded-xl shadow-lg hover:-translate-y-2 hover:shadow-2xl">
                 <img
                   className="image-full w-full h-56 md:h-64 xl:h-80"

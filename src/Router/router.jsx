@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Main from "../Layout/Main";
+import SingleBrand from "../Pages/Brands/SingleBrand";
 import AdminAction from "../Pages/Dashboard/Admin/AdminAction";
 import AllBuyers from "../Pages/Dashboard/Admin/AllBuyers";
 import AllSeller from "../Pages/Dashboard/Admin/AllSeller";
@@ -35,6 +36,18 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/category/:id",
+        element: <SingleBrand />,
+        loader: ({ params }) => fetch(
+          `${import.meta.env.VITE_server_url}brand/${params.id}`,
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("lmt")}`,
+            },
+          }
+        )
       },
     ],
   },
