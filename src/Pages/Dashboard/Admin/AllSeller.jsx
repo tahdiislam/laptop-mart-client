@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../../../Component/ConfirmModal/ConfirmModal";
+import Loading from "../../../Component/Spinner/Loading";
 import { UserContext } from "../../../Context/AuthProvider";
 
 const AllSeller = () => {
@@ -60,6 +61,40 @@ const AllSeller = () => {
         }
       });
   };
+
+  // verify seller
+  const handleVerifyUser = (email) => {
+    // verify
+    axios
+      .get(`${import.meta.env.VITE_server_url}verify-user/${email}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("lmt")}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.result.modifiedCount) {
+          toast.success("Seller verified successfully");
+          refetch();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status === 401 || err.response.status === 403) {
+          logOut()
+            .then(() => {
+              toast.error("Session Expired Please login again");
+              navigate("/login");
+            })
+            .catch((err) => {
+              console.log(err.message);
+            });
+        }
+      });
+  };
+  // spinner
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div>
       <h1 className="text-4xl font-bold text-start ml-4 text-primary mb-4">
@@ -73,7 +108,7 @@ const AllSeller = () => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Delete</th>
-                <th>Make Admin</th>
+                <th>Status</th>
                 <th>Send Message</th>
               </tr>
             </thead>
@@ -116,9 +151,18 @@ const AllSeller = () => {
                   </td>
                   <td>{user?.email}</td>
                   <td>
-                    <button className="btn btn-primary btn-xs">
-                      Make Admin
-                    </button>
+                    {!user?.userVerified ? (
+                      <button
+                        onClick={() => handleVerifyUser(user.email)}
+                        className="btn btn-primary btn-xs"
+                      >
+                        Verify User
+                      </button>
+                    ) : (
+                      <p className="text-primary text-lg font-semibold">
+                        Verified
+                      </p>
+                    )}
                   </td>
                   <td>
                     <button className="btn btn-primary btn-xs">

@@ -299,11 +299,11 @@ const AddProduct = () => {
             <div className="grid grid-cols-3 gap-4">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Purchase Date</span>
+                  <span className="label-text">Used Duration</span>
                 </label>
                 <input
-                  type="date"
-                  placeholder="purchase date"
+                  type="text"
+                  placeholder="used Duration"
                   className="input input-bordered input-primary"
                   {...register("purchaseDate", {
                     required: "Purchase Date is required!",
