@@ -23,3 +23,8 @@
 ### Site Description
 
 Ths is a Multi Vendor E-commerce , There are sellers, buyers and admin. The sellers and sell their second hand product in this e-commerce and buyer can any kind of product and admin can manage their user and reported product.
+
+## Admin account:
+
+- Email: random@admin.com
+- Password: hellohello@2A
