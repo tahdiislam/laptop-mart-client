@@ -1,13 +1,15 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
 import useAccessToken from "../../Hooks/useAccessToken";
+import login from "../../assets/login.png";
 
 const Login = () => {
   const [userEmail, setUserEmail] = useState("");
-  const { signInUser } = useContext(UserContext);
+  const { signInUser, signInWithProvider } = useContext(UserContext);
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
@@ -51,17 +53,56 @@ const Login = () => {
         );
       });
   };
+
+  const hanleGoogleSignIn = () => {
+    signInWithProvider()
+      .then((res) => {
+        console.log(res.user);
+        const email = res.user.email;
+        const user = {
+          email: res.user.email,
+          name: res.user.displayName,
+          role: "buyer",
+          userVerified: false,
+          image: res.user.photoURL,
+          uid: res.user.uid,
+        };
+        console.log(user);
+        if (user) {
+          axios
+            .put(`${import.meta.env.VITE_server_url}user-google`, user)
+            .then((result) => {
+              console.log(result.data.result);
+              if (result.data.result) {
+                setUserEmail(email);
+              }
+            })
+            .catch((err) => console.log(err.message));
+        }
+      })
+      .catch((err) =>
+        toast.error(
+          err.message
+            .split("Firebase: ")
+            .join("")
+            .split(" (")
+            .join(": ")
+            .split("/")
+            .join(" ")
+            .split("-")
+            .join(" ")
+            .split(")")
+            .join("")
+        )
+      );
+  };
+
   return (
     <section className="w-full px-4 md:px-0">
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="w-full md:w-1/2 text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Login now!</h1>
-            <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
-            </p>
+            <img src={login} alt="" />
           </div>
           <div className="card w-full md:w-1/2 shadow-2xl bg-base-100">
             <form onSubmit={handleSubmit(handleLogin)} className="card-body">
@@ -74,8 +115,11 @@ const Login = () => {
                   type="email"
                   placeholder="email"
                   className="input input-bordered"
-                  {...register("email", { required: true })}
+                  {...register("email", { required: "Email is required" })}
                 />
+                {errors?.email && (
+                  <p className="text-red-500 mt-2">{errors.email.message}</p>
+                )}
               </div>
               <div className="form-control">
                 <label className="label">
@@ -85,13 +129,11 @@ const Login = () => {
                   type="password"
                   placeholder="password"
                   className="input input-bordered"
-                  {...register("password", { required: true })}
+                  {...register("password", { required: "Password is required" })}
                 />
-                <label className="label">
-                  <Link to="/login" className="label-text-alt link link-hover">
-                    Forgot password?
-                  </Link>
-                </label>
+                {errors?.password && (
+                  <p className="text-red-500 mt-2">{errors.password.message}</p>
+                )}
               </div>
               <div className="form-control mt-6">
                 <button type="submit" className="btn btn-primary">
@@ -111,7 +153,10 @@ const Login = () => {
             </form>
             <div className="divider mt-[-6px]">OR</div>
             <div className="flex justify-center mb-4">
-              <button className="btn btn-ghost w-1/2">
+              <button
+                onClick={hanleGoogleSignIn}
+                className="btn btn-ghost w-1/2"
+              >
                 Continue with Google
               </button>
             </div>

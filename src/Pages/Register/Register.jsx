@@ -5,11 +5,12 @@ import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
 import useAccessToken from "../../Hooks/useAccessToken";
+import RegisterImg from "../../assets/login.png";
 
 const Register = () => {
   const [role, setRole] = useState("buyer");
   const [userEmail, setUserEmail] = useState("");
-  const { createUserWithEmailPassword, updateUserProfile } =
+  const { createUserWithEmailPassword, updateUserProfile, signInWithProvider } =
     useContext(UserContext);
   const navigate = useNavigate();
 
@@ -110,17 +111,55 @@ const Register = () => {
       });
   };
 
+  const hanleGoogleSignIn = () => {
+    signInWithProvider()
+      .then((res) => {
+        console.log(res.user);
+        const email = res.user.email;
+        const user = {
+          email: res.user.email,
+          name: res.user.displayName,
+          role: "buyer",
+          userVerified: false,
+          image: res.user.photoURL,
+          uid: res.user.uid,
+        };
+        console.log(user);
+        if (user) {
+          axios
+            .put(`${import.meta.env.VITE_server_url}user-google`, user)
+            .then((result) => {
+              console.log(result.data.result);
+              if (result.data.result) {
+                setUserEmail(email);
+              }
+            })
+            .catch((err) => console.log(err.message));
+        }
+      })
+      .catch((err) =>
+        toast.error(
+          err.message
+            .split("Firebase: ")
+            .join("")
+            .split(" (")
+            .join(": ")
+            .split("/")
+            .join(" ")
+            .split("-")
+            .join(" ")
+            .split(")")
+            .join("")
+        )
+      );
+  };
+
   return (
     <section className="w-full px-4 md:px-0">
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <div className="w-full md:w-1/2 text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Register</h1>
-            <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
-            </p>
+            <img src={RegisterImg} alt="" />
           </div>
           <div className="card w-full md:w-1/2 shadow-2xl bg-base-100">
             <form onSubmit={handleSubmit(handleLogin)} className="card-body">
@@ -226,7 +265,10 @@ const Register = () => {
             </form>
             <div className="divider mt-[-6px]">OR</div>
             <div className="flex justify-center mb-4">
-              <button className="btn btn-ghost w-1/2">
+              <button
+                onClick={hanleGoogleSignIn}
+                className="btn btn-ghost w-1/2"
+              >
                 Continue with Google
               </button>
             </div>
