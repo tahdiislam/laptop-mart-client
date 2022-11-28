@@ -25,8 +25,8 @@ const ProductCard = ({ product, category }) => {
     screenSize,
     operatingSystem,
     purchaseDate,
+    sold,
   } = product;
-
   return (
     <div className="p-4 w-full">
       <div className="h-full border border-primary rounded-lg overflow-hidden shadow-lg">
@@ -103,9 +103,9 @@ const ProductCard = ({ product, category }) => {
             <label
               onClick={() => setBookingProduct(product)}
               htmlFor="booking-modal"
-              className="btn btn-primary w-full"
+              className={`btn btn-primary w-full ${sold && "btn-disabled"}`}
             >
-              Book Now
+              {!sold ? <>Book Now</> : <>Sold</>}
             </label>
           </div>
           <div className="divider"></div>

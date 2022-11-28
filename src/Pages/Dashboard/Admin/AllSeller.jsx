@@ -156,7 +156,7 @@ const AllSeller = () => {
                         onClick={() => handleVerifyUser(user.email)}
                         className="btn btn-primary btn-xs"
                       >
-                        Verify User
+                        Verify Seller
                       </button>
                     ) : (
                       <p className="text-primary text-lg font-semibold">
