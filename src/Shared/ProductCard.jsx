@@ -1,10 +1,15 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import BookingModal from "../Component/BookingModal/BookingModal";
 import { UserContext } from "../Context/AuthProvider";
 
 const ProductCard = ({ product, category }) => {
   const [bookingProduct, setBookingProduct] = useState(null);
-  const { user } = useContext(UserContext);
+  const [disabled, setDisabled] = useState(false);
+  const { user, logOut } = useContext(UserContext);
+  const navigate = useNavigate();
   const {
     imageUrl,
     condition,
@@ -27,6 +32,44 @@ const ProductCard = ({ product, category }) => {
     purchaseDate,
     sold,
   } = product;
+
+  // report admin handler
+  const handleReportAdmin = () => {
+    setDisabled(true);
+    // post report
+    const report = { ...product, reported: true };
+    axios
+      .post(`${import.meta.env.VITE_server_url}reports`, report, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("lmt")}`,
+        },
+      })
+      .then((res) => {
+        // category post done
+        if (res.data.result.acknowledged) {
+          // refetch();
+          toast.success("Category added successfully!");
+          setDisabled(false);
+        }
+      })
+      .catch((err) => {
+        if (err?.response?.status === 409) {
+          toast.error("This product is already reported!");
+          setDisabled(false);
+        }
+        if (err?.response?.status === 401 || err?.response?.status === 403) {
+          logOut()
+            .then(() => {
+              toast.error("Session Expired Please login again");
+              navigate("/login");
+            })
+            .catch((err) => {
+              console.log(err.message);
+              setDisabled(false);
+            });
+        }
+      });
+  };
   return (
     <div className="p-4 w-full">
       <div className="h-full border border-primary rounded-lg overflow-hidden shadow-lg">
@@ -110,39 +153,47 @@ const ProductCard = ({ product, category }) => {
           </div>
           <div className="divider"></div>
           <div className="flex justify-center">
-            <button className="btn btn-ghost btn-circle">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-                />
-              </svg>
-            </button>
+            <div className="tooltip tooltip-primary" data-tip="WishList">
+              <button className="btn btn-ghost btn-circle">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                  />
+                </svg>
+              </button>
+            </div>
             <div className="divider divider-horizontal"></div>
-            <button className="btn btn-ghost btn-circle">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
+            <div className="tooltip tooltip-error" data-tip="Report to Admin">
+              <button
+                disabled={disabled}
+                onClick={handleReportAdmin}
+                className="btn btn-ghost btn-circle"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
-                />
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>

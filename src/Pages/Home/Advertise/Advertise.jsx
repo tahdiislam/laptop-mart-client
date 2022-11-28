@@ -1,9 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useContext, useState } from "react";
+import BookingModal from "../../../Component/BookingModal/BookingModal";
 import Loading from "../../../Component/Spinner/Loading";
+import { UserContext } from "../../../Context/AuthProvider";
 
 export const Advertise = () => {
+  const [bookingProduct, setBookingProduct] = useState(null);
+  const { user } = useContext(UserContext);
   const {
     data = [],
     isLoading,
@@ -19,9 +23,13 @@ export const Advertise = () => {
     },
   });
   console.log(data);
-  // loading
+  // spinner
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="py-20">
+        <Loading size="w-12 h-12" />
+      </div>
+    );
   }
   return (
     <>
@@ -41,14 +49,28 @@ export const Advertise = () => {
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title text-primary">${product?.price}</h2>
-                  <p className="text-lg">{product?.name}</p>
+                  <p className="text-lg text-gray-100">{product?.name}</p>
                   <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Buy Now</button>
+                    <label
+                      onClick={() => setBookingProduct(product)}
+                      htmlFor="booking-modal"
+                      className={`btn btn-primary w-full`}
+                    >
+                      Book Now
+                    </label>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          {bookingProduct && (
+            <BookingModal
+              product={bookingProduct}
+              buyerName={user?.displayName}
+              email={user?.email}
+              closeModal={setBookingProduct}
+            />
+          )}
         </div>
       )}
     </>

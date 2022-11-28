@@ -40,7 +40,7 @@ const BookingModal = ({ product, buyerName, email, closeModal }) => {
       .then((res) => {
         // category post done
         if (res.data.result.acknowledged) {
-          toast.success("Category added successfully!");
+          toast.success("Product added successfully!");
           setDisabled(false);
           closeModal(null);
         }
