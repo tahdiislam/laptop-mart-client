@@ -5,6 +5,7 @@ import SingleBrand from "../Pages/Brands/SingleBrand";
 import AdminAction from "../Pages/Dashboard/Admin/AdminAction";
 import AllBuyers from "../Pages/Dashboard/Admin/AllBuyers";
 import AllSeller from "../Pages/Dashboard/Admin/AllSeller";
+import ReportedProduct from "../Pages/Dashboard/Admin/ReportedProduct";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 import Payment from "../Pages/Dashboard/Payment.jsx/Payment";
 import AddProduct from "../Pages/Dashboard/Seller/AddProduct";
@@ -126,6 +127,14 @@ const router = createBrowserRouter([
         element: (
           <RequireAdmin>
             <AdminAction />
+          </RequireAdmin>
+        ),
+      },
+      {
+        path: "/dashboard/reported-product",
+        element: (
+          <RequireAdmin>
+            <ReportedProduct />
           </RequireAdmin>
         ),
       },

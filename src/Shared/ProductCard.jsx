@@ -31,13 +31,14 @@ const ProductCard = ({ product, category }) => {
     operatingSystem,
     purchaseDate,
     sold,
+    _id,
   } = product;
 
   // report admin handler
   const handleReportAdmin = () => {
     setDisabled(true);
     // post report
-    const report = { ...product, reported: true };
+    const report = { name, imageUrl, price, productId: _id, reported: true };
     axios
       .post(`${import.meta.env.VITE_server_url}reports`, report, {
         headers: {
@@ -54,7 +55,7 @@ const ProductCard = ({ product, category }) => {
       })
       .catch((err) => {
         if (err?.response?.status === 409) {
-          toast.error("This product is already reported!");
+          toast.error("This is product is already reported!");
           setDisabled(false);
         }
         if (err?.response?.status === 401 || err?.response?.status === 403) {
