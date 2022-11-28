@@ -31,7 +31,9 @@ const ReportedProduct = () => {
     if (deleteProduct) {
       axios
         .delete(
-          `${import.meta.env.VITE_server_url}product-delete-admin/${deleteProduct.productId}`,
+          `${import.meta.env.VITE_server_url}product-delete-admin/${
+            deleteProduct.productId
+          }`,
           {
             headers: {
               authorization: `Bearer ${localStorage.getItem("lmt")}`,
