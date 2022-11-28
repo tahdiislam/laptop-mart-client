@@ -1,6 +1,6 @@
 # Laptop Mart
 
-## live link: [Laptop Mart](https://snackdeck-a569c.web.app/)
+## live link: [Laptop Mart](https://laptop-mart-26.web.app/)
 
 ## Uses Technology
 
