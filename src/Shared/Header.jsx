@@ -49,7 +49,7 @@ const Header = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                className="inline-block w-5 h-5 stroke-current"
+                className="inline-block w-8 h-8 stroke-current"
               >
                 <path
                   strokeLinecap="round"
@@ -82,11 +82,6 @@ const Header = () => {
             <>
               <Link to="/login" className="mr-3">
                 <button className="btn btn-primary">Login</button>
-              </Link>
-              <Link to="/register">
-                <button className="btn btn-primary btn-outline">
-                  Register
-                </button>
               </Link>
             </>
           )}

@@ -42,7 +42,7 @@ export const Advertise = () => {
             {data?.map((product) => (
               <div
                 key={product._id}
-                className="card w-96 bg-base-100 shadow-xl image-full"
+                className="card bg-base-100 shadow-xl image-full"
               >
                 <figure>
                   <img src={product.imageUrl} alt="Shoes" />
