@@ -22,7 +22,6 @@ export const Advertise = () => {
       return users;
     },
   });
-  console.log(data);
   // spinner
   if (isLoading) {
     return (
@@ -34,7 +33,7 @@ export const Advertise = () => {
   return (
     <>
       {data?.length !== 0 && (
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 px-4 md:px-0">
           <h1 className="text-4xl text-primary font-bold my-6 text-center">
             Advertised
           </h1>
