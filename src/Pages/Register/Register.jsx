@@ -157,7 +157,7 @@ const Register = () => {
   return (
     <section className="w-full px-4 md:px-0">
       <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content flex-col lg:flex-row">
+        <div className="hero-content px-0 md:px-4 flex-col lg:flex-row">
           <div className="w-full md:w-1/2 text-center lg:text-left">
             <img src={RegisterImg} alt="" />
           </div>

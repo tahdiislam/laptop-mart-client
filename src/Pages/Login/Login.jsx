@@ -54,7 +54,7 @@ const Login = () => {
       });
   };
 
-  const hanleGoogleSignIn = () => {
+  const handleGoogleSignIn = () => {
     signInWithProvider()
       .then((res) => {
         console.log(res.user);
@@ -100,7 +100,7 @@ const Login = () => {
   return (
     <section className="w-full px-4 md:px-0">
       <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content flex-col lg:flex-row">
+        <div className="hero-content px-0 md:px-4 flex-col lg:flex-row">
           <div className="w-full md:w-1/2 text-center lg:text-left">
             <img src={login} alt="" />
           </div>
@@ -154,7 +154,7 @@ const Login = () => {
             <div className="divider mt-[-6px]">OR</div>
             <div className="flex justify-center mb-4">
               <button
-                onClick={hanleGoogleSignIn}
+                onClick={handleGoogleSignIn}
                 className="btn btn-ghost w-1/2"
               >
                 Continue with Google
