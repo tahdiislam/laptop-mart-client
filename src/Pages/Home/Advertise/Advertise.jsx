@@ -11,7 +11,6 @@ export const Advertise = () => {
   const {
     data = [],
     isLoading,
-    refetch,
   } = useQuery({
     queryKey: ["sellers"],
     queryFn: async () => {
