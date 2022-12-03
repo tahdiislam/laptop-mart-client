@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const Blog = () => {
   return (
-    <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+    <div className="px-4 py-16 mx-auto w-full md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
       <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
         <h2 className="max-w-lg mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto">
           <span className="relative inline-block">
@@ -34,7 +34,7 @@ export const Blog = () => {
           need to know
         </h2>
       </div>
-      <div className="grid max-w-sm gap-5 mb-8 lg:grid-cols-3 sm:mx-auto lg:max-w-full">
+      <div className="grid gap-5 mb-8 lg:grid-cols-3 sm:mx-auto lg:max-w-full">
         <div className="px-10 py-20 text-center border rounded lg:px-5 lg:py-10 xl:py-20">
           <Link
             to="/"
@@ -45,7 +45,7 @@ export const Blog = () => {
             What are the different ways to manage a state in a React
             application?
           </Link>
-          <p className="max-w-xs mx-auto mb-2 text-gray-700">
+          <p className="max-w-xs mx-auto mb-2 text-gray-700 text-justify">
             There are four main types of state you need to properly manage in
             your React apps: Local state, Global state, Server state, URL
             state.Local state is perhaps the easiest kind of state to manage in
@@ -62,7 +62,7 @@ export const Blog = () => {
           >
             How does prototypical inheritance work?
           </Link>
-          <p className="max-w-xs mx-auto mb-2 text-gray-700">
+          <p className="max-w-xs mx-auto mb-2 text-gray-700 text-justify">
             JavaScript only has one construct: objects. Each object has a
             private property which holds a link to another object called its
             prototype. That prototype object has a prototype of its own, and so
@@ -81,7 +81,7 @@ export const Blog = () => {
           >
             What is a unit test? Why should we write unit tests?
           </Link>
-          <p className="max-w-xs mx-auto mb-2 text-gray-700">
+          <p className="max-w-xs mx-auto mb-2 text-gray-700 text-justify">
             The main objective of unit testing is to isolate written code to
             test and determine if it works as intended. Unit testing is an
             important step in the development process, because if done
@@ -98,7 +98,7 @@ export const Blog = () => {
           >
             React vs. Angular vs. Vue?
           </Link>
-          <p className="max-w-xs mx-auto mb-2 text-gray-700">
+          <p className="max-w-xs mx-auto mb-2 text-gray-700 text-justify">
             Angular, developed by Google, was first released in 2010, making it
             the oldest of the lot. It is a TypeScript-based JavaScript
             framework. Vue is generally more suited to smaller, less complex
