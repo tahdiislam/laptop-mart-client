@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../Context/AuthProvider";
+import logo from "../assets/laptop-mart-header-logo.svg";
 
 const Header = () => {
   const { logOut, user, setLoading } = useContext(UserContext);
@@ -67,7 +68,10 @@ const Header = () => {
             </ul>
           </div>
           <Link to="/" className="btn btn-ghost normal-case text-2xl font-bold">
-            Laptop Mart
+            <div className="flex items-center">
+              <img src={logo} className="h-12 mr-3" alt="" />
+              <span>Laptop Mart</span>
+            </div>
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">

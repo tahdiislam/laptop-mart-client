@@ -42,6 +42,7 @@ export const Advertise = () => {
                 key={product._id}
                 className="card bg-base-100 shadow-xl image-full"
               >
+                
                 <figure>
                   <img src={product.imageUrl} alt="Shoes" />
                 </figure>
