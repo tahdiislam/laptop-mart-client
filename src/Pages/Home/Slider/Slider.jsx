@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
+import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import "./Slider.css";
@@ -20,7 +21,6 @@ export default function Slider() {
           delay: 2500,
           disableOnInteraction: false,
         }}
-        navigation={true}
         modules={[Autoplay]}
         className="mySwiper"
       >
