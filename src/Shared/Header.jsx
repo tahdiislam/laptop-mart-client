@@ -67,9 +67,9 @@ const Header = () => {
               {navItems}
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost normal-case text-2xl font-bold">
+          <Link to="/" className="btn btn-ghost normal-case text-xl md:text-2xl font-bold">
             <div className="flex items-center">
-              <img src={logo} className="h-12 mr-3" alt="" />
+              <img src={logo} className="h-10 md:h-12 mr-2 md:mr-3" alt="" />
               <span>Laptop Mart</span>
             </div>
           </Link>
