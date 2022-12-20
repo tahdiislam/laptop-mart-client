@@ -39,6 +39,7 @@ const Login = () => {
         setUserEmail(email);
       })
       .catch((err) => {
+        console.log(err.message);
         toast.error(
           err.message
             .split("Firebase: ")
@@ -118,11 +119,7 @@ const Login = () => {
         <div className="w-full px-4 md:px-0">
           <div className="hero min-h-screen bg-base-200">
             <div className="hero-content px-0 md:px-4 flex-col lg:flex-row">
-              <div className="w-full md:w-1/2 text-center lg:text-left"
-              data-aos="fade-down"
-              data-aos-offset="300"
-              data-aos-easing="ease-in-sine"
-              >
+              <div className="w-full md:w-1/2 text-center lg:text-left">
                 <img src={login} alt="" />
               </div>
               <div
