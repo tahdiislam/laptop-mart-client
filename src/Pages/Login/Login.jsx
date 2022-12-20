@@ -118,10 +118,19 @@ const Login = () => {
         <div className="w-full px-4 md:px-0">
           <div className="hero min-h-screen bg-base-200">
             <div className="hero-content px-0 md:px-4 flex-col lg:flex-row">
-              <div className="w-full md:w-1/2 text-center lg:text-left">
+              <div className="w-full md:w-1/2 text-center lg:text-left"
+              data-aos="fade-down"
+              data-aos-offset="300"
+              data-aos-easing="ease-in-sine"
+              >
                 <img src={login} alt="" />
               </div>
-              <div className="card w-full md:w-1/2 shadow-2xl bg-base-100">
+              <div
+                className="card w-full md:w-1/2 shadow-2xl bg-base-100"
+                data-aos="fade-up"
+                data-aos-offset="300"
+                data-aos-easing="ease-in-sine"
+              >
                 <form
                   onSubmit={handleSubmit(handleLogin)}
                   className="card-body"
