@@ -125,7 +125,7 @@ const Login = () => {
               </div>
               <div
                 className="card w-full md:w-1/2 shadow-2xl bg-base-100"
-                data-aos="fade-up"
+                data-aos="zoom-in-down"
                 data-aos-offset="300"
                 data-aos-easing="ease-in-sine"
               >
