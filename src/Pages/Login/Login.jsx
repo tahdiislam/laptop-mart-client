@@ -6,10 +6,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/AuthProvider";
 import useAccessToken from "../../Hooks/useAccessToken";
 import login from "../../assets/login.png";
+import CircleLoader from "react-spinners/CircleLoader";
 
 const Login = () => {
   const [userEmail, setUserEmail] = useState("");
-  const { signInUser, signInWithProvider } = useContext(UserContext);
+  const { signInUser, signInWithProvider, loading } = useContext(UserContext);
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
@@ -98,71 +99,98 @@ const Login = () => {
   };
 
   return (
-    <section className="w-full px-4 md:px-0">
-      <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content px-0 md:px-4 flex-col lg:flex-row">
-          <div className="w-full md:w-1/2 text-center lg:text-left">
-            <img src={login} alt="" />
-          </div>
-          <div className="card w-full md:w-1/2 shadow-2xl bg-base-100">
-            <form onSubmit={handleSubmit(handleLogin)} className="card-body">
-              <h3 className="text-3xl font-semibold text-center">Login</h3>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="email"
-                  placeholder="email"
-                  className="input input-bordered"
-                  {...register("email", { required: "Email is required" })}
-                />
-                {errors?.email && (
-                  <p className="text-red-500 mt-2">{errors.email.message}</p>
-                )}
+    <section>
+      {loading ? (
+        <div
+          // style={{ height: "100%" }}
+          className="flex w-full h-screen justify-center items-center"
+        >
+          <CircleLoader
+            color={"#4ED01F"}
+            loading={loading}
+            // cssOverride={override}
+            size={50}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      ) : (
+        <div className="w-full px-4 md:px-0">
+          <div className="hero min-h-screen bg-base-200">
+            <div className="hero-content px-0 md:px-4 flex-col lg:flex-row">
+              <div className="w-full md:w-1/2 text-center lg:text-left">
+                <img src={login} alt="" />
               </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Password</span>
-                </label>
-                <input
-                  type="password"
-                  placeholder="password"
-                  className="input input-bordered"
-                  {...register("password", { required: "Password is required" })}
-                />
-                {errors?.password && (
-                  <p className="text-red-500 mt-2">{errors.password.message}</p>
-                )}
-              </div>
-              <div className="form-control mt-6">
-                <button type="submit" className="btn btn-primary">
-                  Login
-                </button>
-              </div>
-              <p className="text-center mt-3">
-                New in Laptop Mart?{" "}
-                <Link
-                  className="text-primary underline hover:no-underline"
-                  to="/register"
+              <div className="card w-full md:w-1/2 shadow-2xl bg-base-100">
+                <form
+                  onSubmit={handleSubmit(handleLogin)}
+                  className="card-body"
                 >
-                  Sign Up
-                </Link>{" "}
-                here.
-              </p>
-            </form>
-            <div className="divider mt-[-6px]">OR</div>
-            <div className="flex justify-center mb-4">
-              <button
-                onClick={handleGoogleSignIn}
-                className="btn btn-ghost w-1/2"
-              >
-                Continue with Google
-              </button>
+                  <h3 className="text-3xl font-semibold text-center">Login</h3>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Email</span>
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="email"
+                      className="input input-bordered"
+                      {...register("email", { required: "Email is required" })}
+                    />
+                    {errors?.email && (
+                      <p className="text-red-500 mt-2">
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Password</span>
+                    </label>
+                    <input
+                      type="password"
+                      placeholder="password"
+                      className="input input-bordered"
+                      {...register("password", {
+                        required: "Password is required",
+                      })}
+                    />
+                    {errors?.password && (
+                      <p className="text-red-500 mt-2">
+                        {errors.password.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="form-control mt-6">
+                    <button type="submit" className="btn btn-primary">
+                      Login
+                    </button>
+                  </div>
+                  <p className="text-center mt-3">
+                    New in Laptop Mart?{" "}
+                    <Link
+                      className="text-primary underline hover:no-underline"
+                      to="/register"
+                    >
+                      Sign Up
+                    </Link>{" "}
+                    here.
+                  </p>
+                </form>
+                <div className="divider mt-[-6px]">OR</div>
+                <div className="flex justify-center mb-4">
+                  <button
+                    onClick={handleGoogleSignIn}
+                    className="btn btn-ghost w-1/2"
+                  >
+                    Continue with Google
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };
