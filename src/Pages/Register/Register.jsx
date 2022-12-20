@@ -35,8 +35,8 @@ const Register = () => {
 
   // image bb api key
   const imageBbApiKey = import.meta.env.VITE_IMAGE_BB_API_KEY;
-
-  const handleLogin = (data) => {
+  // register handler
+  const handleRegister = (data) => {
     const name = data.name;
     const email = data.email;
     const password = data.password;
@@ -88,7 +88,7 @@ const Register = () => {
                       .join("")
                       .split(" (")
                       .join(": ")
-                      .split("/")
+                      .split("auth/")
                       .join(" ")
                       .split("-")
                       .join(" ")
@@ -104,7 +104,7 @@ const Register = () => {
                   .join("")
                   .split(" (")
                   .join(": ")
-                  .split("/")
+                  .split("auth/")
                   .join(" ")
                   .split("-")
                   .join(" ")
@@ -116,7 +116,7 @@ const Register = () => {
       });
   };
 
-  const hanleGoogleSignIn = () => {
+  const handleGoogleSignIn = () => {
     signInWithProvider()
       .then((res) => {
         console.log(res.user);
@@ -149,7 +149,7 @@ const Register = () => {
             .join("")
             .split(" (")
             .join(": ")
-            .split("/")
+            .split("auth/")
             .join(" ")
             .split("-")
             .join(" ")
@@ -189,7 +189,7 @@ const Register = () => {
                 data-aos-easing="ease-in-sine"
               >
                 <form
-                  onSubmit={handleSubmit(handleLogin)}
+                  onSubmit={handleSubmit(handleRegister)}
                   className="card-body"
                 >
                   <h3 className="text-3xl font-semibold text-center">
@@ -307,7 +307,7 @@ const Register = () => {
                 <div className="divider mt-[-6px]">OR</div>
                 <div className="flex justify-center mb-4">
                   <button
-                    onClick={hanleGoogleSignIn}
+                    onClick={handleGoogleSignIn}
                     className="btn btn-ghost w-1/2"
                   >
                     Continue with Google

@@ -10,7 +10,8 @@ import CircleLoader from "react-spinners/CircleLoader";
 
 const Login = () => {
   const [userEmail, setUserEmail] = useState("");
-  const { signInUser, signInWithProvider, loading } = useContext(UserContext);
+  const { signInUser, signInWithProvider, loading, setLoading } =
+    useContext(UserContext);
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
@@ -39,20 +40,20 @@ const Login = () => {
         setUserEmail(email);
       })
       .catch((err) => {
-        console.log(err.message);
         toast.error(
           err.message
             .split("Firebase: ")
             .join("")
             .split(" (")
             .join(": ")
-            .split("/")
+            .split("auth/")
             .join(" ")
             .split("-")
             .join(" ")
             .split(")")
             .join("")
         );
+        setLoading(false);
       });
   };
 
@@ -89,7 +90,7 @@ const Login = () => {
             .join("")
             .split(" (")
             .join(": ")
-            .split("/")
+            .split("auth/")
             .join(" ")
             .split("-")
             .join(" ")
