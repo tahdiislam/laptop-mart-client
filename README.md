@@ -27,4 +27,4 @@ Ths is a Multi Vendor E-commerce , There are sellers, buyers and admin. The sell
 ## Admin account:
 
 - Email: random@admin.com
-- Password: hellohello@2A
+- Password: hellohello@2A 
