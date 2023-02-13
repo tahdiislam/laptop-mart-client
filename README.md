@@ -13,7 +13,7 @@
 - TailwindCSS and Daisyui,
 - MambaUI and KitWild.
 - Stripe for payment.
-
+ 
 ### Backend Technology
 - NodeJS, ExpressJS,
 - Json Web Token,
