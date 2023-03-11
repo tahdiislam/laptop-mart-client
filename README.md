@@ -10,7 +10,7 @@
 - React-photo-view,
 - Firebase Authentication,
 - Firebase Hosting,
-- TailwindCSS and Daisyui,
+- TailwindCSS and Daisyui, 
 - MambaUI and KitWild.
 - Stripe for payment.
  
