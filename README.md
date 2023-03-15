@@ -5,7 +5,7 @@
 ## Uses Technology
 
 ### Frontend Technology 
-- React, React-Router,
+- React, React-Router, 
 - Axios, React-icon,
 - React-photo-view,
 - Firebase Authentication,
