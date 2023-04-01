@@ -4,7 +4,7 @@
  
 ## Uses Technology
 
-### Frontend Technology 
+### Frontend Technology  
 - React, React-Router, 
 - Axios, React-icon,
 - React-photo-view,
