@@ -9,7 +9,7 @@
 - Axios, React-icon,
 - React-photo-view,
 - Firebase Authentication,
-- Firebase Hosting,
+- Firebase Hosting, 
 - TailwindCSS and Daisyui, 
 - MambaUI and KitWild.
 - Stripe for payment.
