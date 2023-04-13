@@ -6,7 +6,7 @@
 
 ### Frontend Technology  
 - React, React-Router, 
-- Axios, React-icon,
+- Axios, React-icon, 
 - React-photo-view,
 - Firebase Authentication,
 - Firebase Hosting, 
