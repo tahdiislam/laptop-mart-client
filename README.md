@@ -17,7 +17,7 @@
 ### Backend Technology
 - NodeJS, ExpressJS,
 - Json Web Token, 
-- Cors, Dotenv,
+- Cors, Dotenv, 
 - MongoDB For Database,
 - Stripe.
 ### Site Description
