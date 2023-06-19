@@ -15,7 +15,7 @@
 - Stripe for payment.
  
 ### Backend Technology
-- NodeJS, ExpressJS,
+- NodeJS, ExpressJS, 
 - Json Web Token, 
 - Cors, Dotenv, 
 - MongoDB For Database,
